@@ -107,20 +107,20 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "en": "I’m Sun Mingze, an enterprise AI product manager. With 8+ years in product design and hands-on AI development, I turn complex workflows into working products."
     },
     "Years of Experience": {
-      "zh": "年工作经验",
+      "zh": "工作经验",
       "en": "Years of Experience"
     },
     "Years of Ezperience": {
-      "zh": "年工作经验",
+      "zh": "工作经验",
       "en": "Years of Experience"
     },
     "Completed Projects": {
-      "zh": "台覆盖设备",
-      "en": "Devices Covered"
+      "zh": "落地项目",
+      "en": "Projects Delivered"
     },
     "Clients on Worldwide": {
-      "zh": "条辅助计划",
-      "en": "Plans Assisted"
+      "zh": "价值转化",
+      "en": "Value Created"
     },
     "+1 (555) 123-4567": {
       "zh": "138 8058 2649",
@@ -379,19 +379,19 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "en": "AI Product Manager"
     },
     "NovaWorks Agency": {
-      "zh": "博锐尚格科技",
-      "en": "Persagy Technology"
+      "zh": "博锐尚格科技股份有限公司",
+      "en": "Persagy"
     },
     "2023 - Present": {
       "zh": "2022.11—至今",
       "en": "Nov 2022–Present"
     },
     "Senior UI/UX Designer": {
-      "zh": "UX / 交互设计师",
+      "zh": "UX 设计师",
       "en": "UX / Interaction Designer"
     },
     "BrightLabs Digital": {
-      "zh": "北京致远互联",
+      "zh": "北京致远互联软件股份有限公司",
       "en": "Seeyon"
     },
     "2020 - 2023": {
@@ -399,12 +399,12 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "en": "Sep 2019–Oct 2022"
     },
     "UI Designer": {
-      "zh": "UX / 交互设计师",
+      "zh": "UX 设计师",
       "en": "UX / Interaction Designer"
     },
     "PixelForge Interactive": {
-      "zh": "成都易瞳科技",
-      "en": "Camtells Technology"
+      "zh": "成都易瞳科技有限公司",
+      "en": "Eapil"
     },
     "2018 - 2020": {
       "zh": "2015.06—2019.07",
@@ -416,7 +416,7 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
     },
     "Creative Studio 101": {
       "zh": "成都文理学院",
-      "en": "Chengdu College of Arts and Sciences"
+      "en": "CDCAS"
     },
     "2016 - 2018": {
       "zh": "2011—2015",
@@ -1268,7 +1268,7 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "entries": {
         "FestivalWorks": {
           "zh": "博锐尚格科技",
-          "en": "Persagy Technology"
+          "en": "Persagy"
         }
       },
       "route": "/projects/summer-vibes-festival-campaign"
@@ -1308,7 +1308,7 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "entries": {
         "VisualForms Studio": {
           "zh": "博锐尚格科技",
-          "en": "Persagy Technology"
+          "en": "Persagy"
         }
       },
       "route": "/projects/coral-spiral-abstract"
@@ -1348,7 +1348,7 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "entries": {
         "ShopEase": {
           "zh": "博锐尚格科技",
-          "en": "Persagy Technology"
+          "en": "Persagy"
         }
       },
       "route": "/projects/shopease-redesign-sprint"
@@ -1388,7 +1388,7 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "entries": {
         "Studio Prism": {
           "zh": "博锐尚格科技",
-          "en": "Persagy Technology"
+          "en": "Persagy"
         }
       },
       "route": "/projects/black-geometric-prisms"
@@ -1428,7 +1428,7 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "entries": {
         "ColorTrend Agency": {
           "zh": "博锐尚格科技",
-          "en": "Persagy Technology"
+          "en": "Persagy"
         }
       },
       "route": "/projects/pantone-very-peri-poster-design"
@@ -1548,7 +1548,7 @@ window.PORTAVIA_PROFILE_COPY = Object.freeze({
       "entries": {
         "InnovateTech": {
           "zh": "成都易瞳科技",
-          "en": "Camtells Technology"
+          "en": "Eapil"
         }
       },
       "route": "/projects/innovatetech-identity-rollout"

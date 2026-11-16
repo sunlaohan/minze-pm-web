@@ -76,6 +76,7 @@ npm run dev
 | --- | --- |
 | `npm run dev` | 启动源码预览，默认端口 `5173` |
 | `npm run check` | 校验路由、页面结构、本地资源引用和 JavaScript 模块语法 |
+| `npm test` | 校验原生导航行为，以及所有页面不再加载模板路由运行时 |
 | `npm run build` | 将页面与静态资源构建到 `dist/` |
 | `npm run preview -- --port 4173` | 在 `4173` 端口预览构建结果，需先执行构建 |
 
@@ -89,7 +90,7 @@ npm run build
 npm run preview -- --port 4173
 ```
 
-构建会为每条路由生成独立的 `index.html`，并复制样式、脚本与 `public/` 下的资源。将 **`dist/` 的内容作为站点根目录**部署到静态托管服务即可，无需应用后端或数据库。
+构建会为每条路由生成独立的 `index.html`，并复制样式、脚本与本地资源；原模板的 `assets/runtime/` 和 CMS `assets/data/` 仅保留在源码归档中，不进入发布产物。将 **`dist/` 的内容作为站点根目录**部署到静态托管服务即可，无需应用后端或数据库。
 
 部署时需支持目录索引，例如将 `/about` 解析到 `/about/index.html`，并按托管平台的方式配置 404 页面。当前资源路径以 `/assets/`、`/styles/`、`/scripts/` 开头；若部署到子路径，需要同步适配资源和导航地址。
 
@@ -97,23 +98,24 @@ npm run preview -- --port 4173
 
 ## 代码组织与维护
 
-网站采用静态 HTML、CSS 和 JavaScript，使用本地化的 Framer 发布运行时承载既有布局与动画，通过独立的文案和交互脚本完成个人内容定制。
+网站采用静态 HTML、CSS 和原生 JavaScript。既有页面结构、字体、样式、响应式断点与素材作为视觉基线保留；浏览器原生链接负责导航与历史，独立脚本负责双语、主题、折叠列表、计数器、头像与卡片动效。页面不再挂载 React/Framer，也不使用模板路由、指针事件重放或导航锁。
 
 ```text
 minze-pm-web/
 ├── src/
 │   ├── pages/                  # 页面 HTML、项目详情和笔记详情
-│   ├── partials/navigation.html # 共用导航模板
+│   ├── partials/               # 共用导航模板、静态 SVG 图标
 │   ├── scripts/
 │   │   ├── profile-copy.js     # 个人介绍、项目、笔记及联系方式的中英文内容
 │   │   ├── translations.js     # 通用界面与参考页面的中文翻译
-│   │   └── local.js            # 语言、主题、导航与动态内容本地化
-│   └── styles/local.css        # 主题、响应式导航及中英文排版
+│   │   ├── local.js            # 语言、主题、导航与内容本地化
+│   │   └── interactions.js     # 折叠、计数、入场、头像及光标表现
+│   └── styles/                 # local.css 与 interactions.css
 ├── public/assets/
 │   ├── media/                  # 图片与视频
 │   ├── fonts/                  # 字体
 │   ├── data/                   # 本地页面数据
-│   └── runtime/                # 页面交互与动画模块
+│   └── runtime/                # 原参考发布模块归档，不加载、不发布
 ├── scripts/                    # 服务、构建、校验及参考基线维护脚本
 ├── reference-manifest.json     # 路由、素材来源及校验清单
 └── package.json
@@ -126,13 +128,20 @@ minze-pm-web/
 | 个人介绍、职业经历、项目成果、笔记正文和联系方式 | `src/scripts/profile-copy.js` |
 | 通用界面翻译 | `src/scripts/translations.js` |
 | 颜色、字体、间距与响应式样式 | `src/styles/local.css` |
-| 语言切换、主题切换和动态内容处理 | `src/scripts/local.js` |
+| 语言切换、主题切换和导航 | `src/scripts/local.js` |
+| 折叠、计数、入场、头像与卡片表现 | `src/scripts/interactions.js`、`src/styles/interactions.css` |
 | 页面布局与结构 | `src/pages/` |
 | 图片、视频和字体 | `public/assets/` |
 
 个人文案按原始文本键、页面路由和元素作用域映射到页面，维护时需保留对应关系。项目与笔记详情沿用参考页面的 URL 标识，因此部分路径名称与当前展示标题不同。
 
 导航模板通过 `scripts/customize-reference.py` 同步到页面 HTML；修改模板后需同步各页面，`npm run build` 只复制现有页面。更新内容或资源后运行 `npm run check`，再构建预览。
+
+`scripts/native-pages.py` 把参考页面转换为独立页面：移除模板脚本与预加载，补齐静态图标、FAQ 内容和可访问性属性，并保存原入场动画参数。基线定制结束后会自动运行此步骤，防止重新抓取时带回旧路由。日常修改交互使用 `src/scripts/interactions.js`，不需要编辑压缩发布模块。
+
+About 页工具图标与能力名称对应：Codex 使用 Lobe Icons 收录的 Codex 标志；Prompt、Workflow、组件库与 Skill 使用 Lucide 的对话、流程、积木和手册图标。SVG、来源与许可证保存在 `public/assets/media/toolkit/`，图标使用本地资源并保留原卡片尺寸。
+
+首页、About 页及全站页脚的社交图标统一为微信、小红书、抖音、哔哩哔哩，使用 iconfont 的实心 SVG，随所在区域继承颜色。源文件与图标 ID 保存在 `public/assets/media/social/`，通过 `scripts/social_icons.py` 生成本地渲染模块；此脚本也由基线定制脚本调用。模板中不相关的海外社交链接已移除，后续可补充真实账号地址。
 
 ### 页面基线
 

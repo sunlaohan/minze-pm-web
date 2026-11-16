@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Local Portavia reproduction with localized assets and requested theme adjustments.",
+  "description": "Bilingual portfolio with native navigation and independent presentation effects.",
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs --dist",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "test": "node --test scripts/*.test.mjs"
   },
   "engines": { "node": ">=20" }
 }

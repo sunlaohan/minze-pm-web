@@ -124,14 +124,14 @@
     {
       "reference": "https://framer.com/m/phosphor-icons/BehanceLogo.js@0.0.57",
       "local": "/assets/runtime/icons/BehanceLogo.mjs",
-      "bytes": 215,
-      "sha256": "59ff256e367b996db68cc127cd8462bc03e68f2db26e37fc118316fce69a0041"
+      "bytes": 95,
+      "sha256": "7dbe5eff2543d52d3ead6f815b8e7a843e44ef3b95f38293658e1976e1ddee6d"
     },
     {
       "reference": "https://framer.com/m/phosphor-icons/DribbbleLogo.js@0.0.57",
       "local": "/assets/runtime/icons/DribbbleLogo.mjs",
-      "bytes": 219,
-      "sha256": "56fc4c9f3b8cebfa6a62f7827c0b21799075620d513e2f709d4148ae8dd707b2"
+      "bytes": 99,
+      "sha256": "e25806c126d8a13c5da09740a2c9a686e915085d81b4f31df7e1ca7263f1160d"
     },
     {
       "reference": "https://framer.com/m/phosphor-icons/FramerLogo.js@0.0.57",
@@ -142,8 +142,8 @@
     {
       "reference": "https://framer.com/m/phosphor-icons/InstagramLogo.js@0.0.57",
       "local": "/assets/runtime/icons/InstagramLogo.mjs",
-      "bytes": 223,
-      "sha256": "2e45ee134305045269f7421b196c54c44f6e9dff95555793fa91926d2cd0731d"
+      "bytes": 105,
+      "sha256": "badbb328eb051e6ddef26b43249555a6bca95bcb0ff325358b73bc45ad58e4a2"
     },
     {
       "reference": "https://framer.com/m/phosphor-icons/Star.js@0.0.57",
@@ -154,8 +154,8 @@
     {
       "reference": "https://framer.com/m/phosphor-icons/XLogo.js@0.0.57",
       "local": "/assets/runtime/icons/XLogo.mjs",
-      "bytes": 191,
-      "sha256": "c230ad6160c8124acd12175bd0f4339530736e0cb9be4051c1fd9fefb1c185d1"
+      "bytes": 95,
+      "sha256": "4ad440289c2ad3e1432a61b8ede223b43f90a6f68ce681b039a4ebeced631ab7"
     },
     {
       "reference": "https://framerusercontent.com/assets/05KsVHGDmqXSBXM4yRZ65P8i0s.woff2",
@@ -1253,8 +1253,8 @@
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/4Lo_cNhLnn58k_1HNpXuziE9BJN7xDvr6f--ZUL7LY8.iBjQIYKM.mjs",
       "local": "/assets/runtime/4Lo_cNhLnn58k_1HNpXuziE9BJN7xDvr6f--ZUL7LY8.iBjQIYKM.mjs",
-      "bytes": 52106,
-      "sha256": "11813cce16d5ec84c15a8214caac03423235d54c88ce1ee0b25a4f8b312206bc"
+      "bytes": 49900,
+      "sha256": "749b9eab496450bf07f278efbc444034c2619bd35e3ebd35ed76ad9c6d859828"
     },
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/CiuKWT9cthprYJ4pEVXoL9vQuhrGQoQanpnunwIzAqk.CbwUFpJC.mjs",
@@ -1289,8 +1289,8 @@
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/Ja0O5tyukSq9N1n6l7mOg8FdgsxQEzLBCWFuUBAGkQY.COQF2l9U.mjs",
       "local": "/assets/runtime/Ja0O5tyukSq9N1n6l7mOg8FdgsxQEzLBCWFuUBAGkQY.COQF2l9U.mjs",
-      "bytes": 86639,
-      "sha256": "c05270d89d4a8f8214fd360fc7b2cb55b0c01a688c0a3160ef6210c29531d8ef"
+      "bytes": 86695,
+      "sha256": "7c86a3a3e8804087a18e9e0caf073214d531590e7ab922f97ce8f2ab135ad0a5"
     },
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/PX9hIOIVM.BlW8bzpg.mjs",
@@ -1487,8 +1487,8 @@
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/script_main.CvSgUBfa.mjs",
       "local": "/assets/runtime/script_main.CvSgUBfa.mjs",
-      "bytes": 88286,
-      "sha256": "1c8fa71f1471f6fb3182b125af65c3941f4569835649bd28645495021668c247"
+      "bytes": 88203,
+      "sha256": "2486586d9eacf024a4ee1e1efae83a459ef4423e533943cca5fa16bdf388a29f"
     },
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/searchIndex-7jXslhjMfwL3.json",
@@ -1511,8 +1511,8 @@
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/tugztfBTGrDdLQJ3Tmf7J8Fl7YJJuGAbXLVsp8Cp77U.BOVg3ng_.mjs",
       "local": "/assets/runtime/tugztfBTGrDdLQJ3Tmf7J8Fl7YJJuGAbXLVsp8Cp77U.BOVg3ng_.mjs",
-      "bytes": 146306,
-      "sha256": "c2c8c33f0f36c0bd5e338613d5ed20d9e86854a740259f6039157be10251534d"
+      "bytes": 146385,
+      "sha256": "973f03725402e4b5a2c88a6f3b40e9c4128d18ea4eb4aeed3858d107fac5d329"
     },
     {
       "reference": "https://framerusercontent.com/sites/6sq2txEVLtl3aI5BEOutNn/vAixFufuIz6JsD33SKjtgsPLXGBqYfnX7ALR0qsefjg.24wQHwGk.mjs",
@@ -1544,6 +1544,97 @@
       "note": "User-provided portfolio portrait.",
       "bytes": 2176949,
       "sha256": "7890d49d4bc0b60da634ed2bef5d29ad7e0166da9302af8ad0776feeb2b4e64c"
+    },
+    {
+      "reference": "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/codex-color.svg",
+      "local": "/assets/media/toolkit/codex.svg",
+      "note": "Resume toolkit icon; provenance and licenses in assets/media/toolkit/.",
+      "bytes": 1745,
+      "sha256": "6f459b189e6249f92037e782ed5fefd99e51e3d6fefe0764126a1a2b64cc4965"
+    },
+    {
+      "reference": "https://lucide.dev/icons/message-square-code",
+      "local": "/assets/media/toolkit/prompt.svg",
+      "note": "Resume toolkit icon; provenance and licenses in assets/media/toolkit/.",
+      "bytes": 585,
+      "sha256": "27efef3393ddca216d69861df72a6cdc5318ec68911bfbd0ac005c9ecf9f66f7"
+    },
+    {
+      "reference": "https://lucide.dev/icons/workflow",
+      "local": "/assets/media/toolkit/workflow.svg",
+      "note": "Resume toolkit icon; provenance and licenses in assets/media/toolkit/.",
+      "bytes": 538,
+      "sha256": "f4618ba615a0c9eae6c691fe76c8e8e181f2a4aec284c10ed25a294b96f1fb13"
+    },
+    {
+      "reference": "https://lucide.dev/icons/blocks",
+      "local": "/assets/media/toolkit/components.svg",
+      "note": "Resume toolkit icon; provenance and licenses in assets/media/toolkit/.",
+      "bytes": 519,
+      "sha256": "ece0a52eda15fa121bc8b6f4ffd1daf71c88b1836040736965f9085d10ce606b"
+    },
+    {
+      "reference": "https://lucide.dev/icons/book-open-check",
+      "local": "/assets/media/toolkit/skills.svg",
+      "note": "Resume toolkit icon; provenance and licenses in assets/media/toolkit/.",
+      "bytes": 611,
+      "sha256": "4c4aa66a889c9a90440996be1f8fead7b6338c95da54d2955ec24c89305bca5d"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E5%BE%AE%E4%BF%A1",
+      "local": "/assets/media/social/wechat.svg",
+      "note": "iconfont icon 77156; WeChat solid monochrome SVG.",
+      "bytes": 1967,
+      "sha256": "58ba59516144f71ae8cb8df5610265b15020cf8b8f6cdd38c51387fce2d8b045"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E5%BE%AE%E4%BF%A1",
+      "local": "/assets/runtime/icons/SocialWeChat.mjs",
+      "note": "iconfont icon 77156; WeChat solid monochrome SVG.",
+      "bytes": 2255,
+      "sha256": "9d4d1dc84c6a99ce66a89af32a371446b2baf0dd16febb94f02438a1deca629b"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E5%B0%8F%E7%BA%A2%E4%B9%A6",
+      "local": "/assets/media/social/xiaohongshu.svg",
+      "note": "iconfont icon 40336764; Xiaohongshu solid monochrome SVG.",
+      "bytes": 2819,
+      "sha256": "bbaa30486ce22720e6eb03665c4081b03d139fad8f2a35a7e21267dc795fafb8"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E5%B0%8F%E7%BA%A2%E4%B9%A6",
+      "local": "/assets/runtime/icons/SocialXiaohongshu.mjs",
+      "note": "iconfont icon 40336764; Xiaohongshu solid monochrome SVG.",
+      "bytes": 3118,
+      "sha256": "5b91252cc29d018eba591b94cf682bdd86c7eefe00debe3d6958f598f2c4a8fa"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E6%8A%96%E9%9F%B3",
+      "local": "/assets/media/social/douyin.svg",
+      "note": "iconfont icon 18166694; Douyin solid monochrome SVG.",
+      "bytes": 461,
+      "sha256": "f4a1981e8433096fa81f15e8f0c0a7e3c3dd6c843f432039bac821fb11512c75"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E6%8A%96%E9%9F%B3",
+      "local": "/assets/runtime/icons/SocialDouyin.mjs",
+      "note": "iconfont icon 18166694; Douyin solid monochrome SVG.",
+      "bytes": 751,
+      "sha256": "f4fb09b316716f073146238b9b0d6c2b42497f176cd81c4a84bd03400644f45b"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9",
+      "local": "/assets/media/social/bilibili.svg",
+      "note": "iconfont icon 25039620; Bilibili solid monochrome SVG.",
+      "bytes": 2597,
+      "sha256": "2d364335bb3cc1966a866386ff5e6b50851277953cbff46313f1d2c8f00b2e43"
+    },
+    {
+      "reference": "https://www.iconfont.cn/search/index?searchType=icon&q=%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9",
+      "local": "/assets/runtime/icons/SocialBilibili.mjs",
+      "note": "iconfont icon 25039620; Bilibili solid monochrome SVG.",
+      "bytes": 2918,
+      "sha256": "debe3e7d20750105d87da3b0e60f1525790c27cde7d775e3dd36d3a022ea5207"
     }
   ]
 }

@@ -1,5 +1,11 @@
-/* Local navigation, appearance, and bilingual presentation for all routes. */
+/* Native navigation, appearance, and bilingual presentation for all routes. */
 (() => {
+  // Static hosts may serve directory indexes with a trailing slash. Normalize
+  // before the template runtime resolves the route and its scoped profile copy.
+  const pathname = location.pathname.replace(/\/+$/, '') || '/';
+  if (pathname !== location.pathname) {
+    history.replaceState(history.state, '', pathname + location.search + location.hash);
+  }
   const html = document.documentElement;
   const profile = window.PORTAVIA_PROFILE_COPY || { entries: {}, scopes: [], contact: {}, projects: {} };
   const profileEntries = new Map(Object.entries(profile.entries).map(([key, value]) => [normalize(key), value]));
@@ -25,6 +31,10 @@
   let locale = readStorage('localStorage', 'portavia-language') === 'en' ? 'en' : 'zh';
   let theme = readStorage('sessionStorage', 'currentToggleState') === 'dark' ? 'dark' : 'light';
   let navigation;
+  function closeNavigation(root) {
+    root.querySelector('[data-menu]').setAttribute('aria-expanded', 'false');
+    root.classList.remove('is-open');
+  }
 
   function readStorage(kind, key) {
     try { return window[kind].getItem(key); } catch { return null; }
@@ -182,16 +192,20 @@
     navigation = document.getElementById('site-navigation');
     navigation.querySelector('[data-language]').addEventListener('click', () => setLocale(locale === 'zh' ? 'en' : 'zh'));
     navigation.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => setTheme(button.dataset.themeChoice)));
+    // Real anchors own navigation. No pending flag, pointer replay, router or
+    // scroll state can prevent a later click from reaching its destination.
+    navigation.addEventListener('click', event => {
+      const link = event.target.closest('a[href]');
+      if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (link.href === location.href) event.preventDefault();
+      closeNavigation(navigation);
+    });
     const menu = navigation.querySelector('[data-menu]');
     menu.addEventListener('click', () => {
       const open = menu.getAttribute('aria-expanded') !== 'true';
       menu.setAttribute('aria-expanded', String(open));
       navigation.classList.toggle('is-open', open);
     });
-    navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-      menu.setAttribute('aria-expanded', 'false');
-      navigation.classList.remove('is-open');
-    }));
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && navigation.classList.contains('is-open')) {
         menu.setAttribute('aria-expanded', 'false');
@@ -209,31 +223,6 @@
     localizeTree(document.head);
     renderNavigation();
     html.dataset.localReady = 'true';
-    // Change text values, preserving React-owned elements and their hierarchy.
-    const observer = new MutationObserver(records => {
-      for (const record of records) {
-        if (record.type === 'characterData') localizeText(record.target);
-        else if (record.type === 'attributes') localizeTree(record.target);
-        else record.addedNodes.forEach(localizeTree);
-      }
-      renderNavigation();
-    });
-    observer.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['href'] });
-    new MutationObserver(() => localizeTree(document.head)).observe(document.querySelector('title'), { childList: true, characterData: true, subtree: true });
-    // Only the article newsletter forms remain, with no connected backend.
-    document.addEventListener('submit', event => {
-      if (!(event.target instanceof HTMLFormElement)) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      if (!event.target.reportValidity()) return;
-      let status = event.target.querySelector('.local-form-status');
-      if (!status) {
-        status = document.createElement('p');
-        status.className = 'local-form-status';
-        status.setAttribute('role', 'status');
-        event.target.append(status);
-      }
-      status.textContent = locale === 'zh' ? '当前为本地预览，暂未接入订阅服务。' : 'This local preview is not connected to a subscription service yet.';
-    }, true);
+
   });
 })();

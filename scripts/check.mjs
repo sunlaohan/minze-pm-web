@@ -15,6 +15,10 @@ for (const route of manifest.routes) {
   const html = await readFile(resolve(root, route.source), 'utf8');
   assert(html.includes('/styles/local.css'), `Custom styles missing on ${route.path}`);
   assert(html.includes('/scripts/local.js'), `Theme initialization missing on ${route.path}`);
+  assert(html.includes('data-native-page="true"'), `Native page migration missing on ${route.path}`);
+  assert(html.includes('/scripts/interactions.js'), `Native interactions missing on ${route.path}`);
+  assert(html.includes('/styles/interactions.css'), `Native interaction styles missing on ${route.path}`);
+  assert(!html.includes('/assets/runtime/'), `Legacy runtime is still loaded on ${route.path}`);
   assert(html.includes('/scripts/translations.js'), `Translations missing on ${route.path}`);
   assert(html.includes('/scripts/profile-copy.js'), `Resume content missing on ${route.path}`);
   assert.equal((html.match(/id="site-navigation"/g) || []).length, 1, `Shared navigation missing or duplicated on ${route.path}`);
@@ -51,7 +55,7 @@ for (const asset of manifest.assets) {
     }
   }
 }
-for (const name of ['local.js', 'translations.js', 'profile-copy.js']) {
+for (const name of ['local.js', 'translations.js', 'profile-copy.js', 'interactions.js']) {
   const result = spawnSync(process.execPath, ['--check', resolve(root, 'src/scripts', name)], { encoding: 'utf8' });
   assert.equal(result.status, 0, `Invalid local script ${name}: ${result.stderr}`);
 }

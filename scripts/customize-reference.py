@@ -3,8 +3,10 @@ from pathlib import Path
 from hashlib import sha256
 import json
 import re
+import runpy
 
 from bs4 import BeautifulSoup
+from social_icons import customize_social_icons
 
 ROOT = Path(__file__).resolve().parents[1]
 AVATAR_IMAGE = '/assets/media/office-shiba.png'
@@ -14,11 +16,23 @@ HERO_FACES = {
     'Back': {'src': '/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg', 'srcset': '/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg 819w,/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg 960w', 'alt': 'Designer workspace with a computer', 'width': 960, 'height': 1200},
 }
 HERO_IMAGES = ('/assets/media/qrxY8NagVO40NBrdhFEGgFR3PYY.jpg', '/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg', AVATAR_IMAGE)
+HOME_METRICS = {
+    'Years of Experience': (10, '+'),
+    'Completed Projects': (50, '+'),
+    'Clients on Worldwide': (200, 'W+'),
+}
 SOCIAL_LABELS = {
     'https://x.com/': 'X',
     'https://www.instagram.com/': 'Instagram',
     'https://www.behance.net/': 'Behance',
     'https://dribbble.com/': 'Dribbble',
+}
+TOOLKIT_ICONS = {
+    '/assets/media/Nf63tXddU52SRtJJgRHqk7zzD2g.png': {'src': '/assets/media/toolkit/codex.svg', 'alt': 'Codex logo', 'reference': 'https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/codex-color.svg'},
+    '/assets/media/RaZetiUCiiVee9pYfau5kIm0k.jpg': {'src': '/assets/media/toolkit/prompt.svg', 'alt': 'Prompt icon', 'reference': 'https://lucide.dev/icons/message-square-code'},
+    '/assets/media/KhZnIlAtOozB2Axd5yg9ALd7A.jpg': {'src': '/assets/media/toolkit/workflow.svg', 'alt': 'Workflow icon', 'reference': 'https://lucide.dev/icons/workflow'},
+    '/assets/media/FigaBMy3WrTNL79MFKifsXxXE.jpg': {'src': '/assets/media/toolkit/components.svg', 'alt': 'Component library icon', 'reference': 'https://lucide.dev/icons/blocks'},
+    '/assets/media/1jsryiRhbB5SoLHzyceqqF9tpo.jpg': {'src': '/assets/media/toolkit/skills.svg', 'alt': 'Skills icon', 'reference': 'https://lucide.dev/icons/book-open-check'},
 }
 
 
@@ -81,6 +95,17 @@ def main():
         for image in soup.select('[data-framer-name="About Card - 1"] img'):
             for name, value in HERO_FACES['Front'].items():
                 image[name] = str(value)
+        for image in soup.select('[data-framer-name="Tech Stack Card"] img'):
+            icon = TOOLKIT_ICONS.get(image.get('src'))
+            if icon:
+                image['src'], image['alt'] = icon['src'], icon['alt']
+        for card in soup.select('.framer-bsCWJ'):
+            label = card.select_one('p')
+            metric = HOME_METRICS.get(label.get_text(strip=True)) if label else None
+            if metric:
+                for heading in card.select('.framer-zfw4zw-container h3'):
+                    heading.clear()
+                    heading.append('0' + metric[1])
         soup.html['lang'] = 'zh-CN'
         soup.html['data-locale'] = 'zh'
         if not soup.select_one('script[src="/scripts/translations.js"]'):
@@ -117,10 +142,16 @@ def main():
             images = '|'.join(re.escape(image) for image in (HERO_IMAGES[0], AVATAR_IMAGE))
             # Replace only the portrait slide; keep the other About photographs.
             output = re.sub(r'\{alt:`[^`]*`,pixelHeight:\d+,pixelWidth:\d+,src:`(?:' + images + r')`,srcSet:`[^`]*`\}', replace_hero_background, output)
+        # Match toolkit images to the resume-based capability names.
+        for old_source, icon in TOOLKIT_ICONS.items():
+            output = output.replace(old_source, icon['src'])
+            output = re.sub(r'(src:`' + re.escape(icon['src']) + r'`[^{}]*\},)`Tech Logo`', r'\g<1>`' + icon['alt'] + '`', output)
+        output = output.replace('alt:``,src:`/assets/media/toolkit/codex.svg`', 'alt:`Codex logo`,src:`/assets/media/toolkit/codex.svg`')
         # Preserve animated counters while replacing template figures.
-        output = re.sub(r'(CSvrESaLr:`Completed Projects`,[^{}]*k4k7YmQcq:)\d+', r'\g<1>500', output)
-        output = re.sub(r'(CSvrESaLr:`Completed Projects`,[^{}]*S0H9a8_hu:)`[^`]*`', r'\g<1>`+`', output)
-        output = re.sub(r'(CSvrESaLr:`Clients on Worldwide`,[^{}]*k4k7YmQcq:)\d+', r'\g<1>300', output)
+        for title, (end, suffix) in HOME_METRICS.items():
+            prefix = r'(CSvrESaLr:`' + re.escape(title) + r'`,[^{}]*'
+            output = re.sub(prefix + r'k4k7YmQcq:)\d+', lambda match: match[1] + str(end), output)
+            output = re.sub(prefix + r'S0H9a8_hu:)`[^`]*`', lambda match: match[1] + '`' + suffix + '`', output)
         output = re.sub(r'end:\d+(?=,font:\{[^}]+\},height:`100%`,id:`nVs56LUpv`)', 'end:80', output)
         output = re.sub(r'end:\d+(?=,font:\{[^}]+\},height:`100%`,id:`tzEpp6_E7`)', 'end:90', output)
         # Use client mounting so localized text never conflicts with English SSR.
@@ -128,15 +159,20 @@ def main():
         if output != source:
             path.write_text(output)
             modified += 1
+    customize_social_icons(ROOT)
     manifest_path = ROOT / 'reference-manifest.json'
     manifest = json.loads(manifest_path.read_text())
     if not any(asset['local'] == AVATAR_IMAGE for asset in manifest['assets']):
         manifest['assets'].append({'reference': 'user-provided:office-shiba.png', 'local': AVATAR_IMAGE, 'note': 'User-provided portfolio portrait.'})
+    for icon in TOOLKIT_ICONS.values():
+        if not any(asset['local'] == icon['src'] for asset in manifest['assets']):
+            manifest['assets'].append({'reference': icon['reference'], 'local': icon['src'], 'note': 'Resume toolkit icon; provenance and licenses in assets/media/toolkit/.'})
     for asset in manifest['assets']:
         file = ROOT / 'public' / asset['local'].lstrip('/')
         asset['bytes'] = file.stat().st_size
         asset['sha256'] = sha256(file.read_bytes()).hexdigest()
     manifest_path.write_text(json.dumps(manifest, indent=2) + '\n')
+    runpy.run_path(str(ROOT / 'scripts/native-pages.py'), run_name='__main__')
     print(f'Applied navigation, contact, footer, portrait, and local icon changes; updated {modified} runtime modules.')
 
 

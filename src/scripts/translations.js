@@ -1,5 +1,9 @@
 // Complete Chinese copy for the reference pages. English remains the source of truth.
 window.PORTAVIA_TRANSLATIONS = Object.freeze({
+  "WeChat": "微信",
+  "Xiaohongshu": "小红书",
+  "Douyin": "抖音",
+  "Bilibili": "哔哩哔哩",
   "Read More": "查看详情",
   "View Project": "查看作品",
   "Email": "邮箱",

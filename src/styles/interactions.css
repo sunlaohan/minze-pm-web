@@ -1,0 +1,37 @@
+/* Native presentation layer. Existing page/component CSS owns the layout. */
+html[data-native-page] { scroll-behavior: auto; }
+/* Preserve the template's small optical alignment without its code component. */
+[data-native-page] .framer-9caroe-container { margin-left: -10px; margin-top: -10px; }
+[data-disclosure-toggle] { cursor: pointer; }
+[data-disclosure-toggle]:focus-visible { outline: 2px solid #5e67e6; outline-offset: 4px; }
+[data-native-page] [data-disclosure-panel] { height: 1px; overflow: hidden; }
+[data-native-page] [data-open] > [data-disclosure-panel] { height: auto; }
+[data-native-page] [data-disclosure][data-open] { --border-color: var(--token-54672876-03f0-4dca-8fdb-32c421a5c4d1); }
+[data-native-page] [data-disclosure][data-open] [data-disclosure-toggle] h3,
+[data-native-page] [data-disclosure][data-open] [data-disclosure-toggle] h4 {
+  --framer-text-color: var(--token-54672876-03f0-4dca-8fdb-32c421a5c4d1);
+}
+[data-native-page] [data-disclosure-panel][aria-hidden="true"] { visibility: hidden; }
+[data-native-page] [data-framer-name="Avatar Card Flip"] { transition: transform .8s cubic-bezier(.22,.75,.25,1); cursor: pointer; }
+[data-native-page] [data-framer-name="Avatar Card Flip"][data-flipped] { transform: perspective(2000px) rotateY(180deg) !important; }
+[data-native-page] [data-framer-name="About Cards Wrap"] { cursor: pointer; }
+[data-native-page] [data-gallery] { transition: transform .6s cubic-bezier(.22,.75,.25,1); }
+.framer-InsWF .framer-hvqhah { transition: inset .4s cubic-bezier(.22,.75,.25,1), width .4s, height .4s; }
+.framer-InsWF.hover .framer-bh1npw h4 { --framer-text-color: var(--token-861b2ae9-dee3-4143-a255-6faa9a39d943) !important; }
+.presentation-cursor {
+  position: fixed; left: -7px; top: -7px; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--token-54672876-03f0-4dca-8fdb-32c421a5c4d1);
+  z-index: 13; opacity: 0; pointer-events: none !important;
+  transition: width .2s, height .2s, left .2s, top .2s, opacity .2s;
+}
+.presentation-cursor[data-visible] { opacity: 1; }
+.presentation-cursor[data-large] { width: 70px; height: 70px; left: -35px; top: -35px; }
+[data-native-page] .framer-1rl3kp7-container svg { animation: wave-hand 2.2s ease-in-out infinite; transform-origin: 50% 75%; }
+.native-hand { position: absolute; inset: 20%; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.native-hand svg { width: 100%; height: 100%; animation: wave-hand 2.2s ease-in-out infinite; transform-origin: 50% 75%; }
+.framer-DCBRB:hover .native-hand { opacity: 1; }
+.framer-DCBRB:hover [data-framer-component-type="RichTextContainer"] { opacity: 0; }
+@keyframes wave-hand { 0%,100% { rotate: -8deg; } 50% { rotate: 8deg; } }
+@media (prefers-reduced-motion: reduce) {
+  [data-native-page] *, [data-native-page] *:before, [data-native-page] *:after { animation-duration: 0s !important; transition-duration: 0s !important; }
+}

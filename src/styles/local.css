@@ -1,0 +1,203 @@
+/* Project customizations. The reference layout and motion live in src/pages
+   and public/assets/runtime; keep deliberate visual changes in this file. */
+
+/* Both appearances share the same accent and its foreground color. */
+html[data-theme] body {
+  --token-54672876-03f0-4dca-8fdb-32c421a5c4d1: #5e67e6;
+  --token-861b2ae9-dee3-4143-a255-6faa9a39d943: #fff;
+}
+
+html[data-theme="light"] body {
+  color-scheme: light;
+  --token-a9f688eb-778b-4a71-929e-ebf8a014b4cf: #303030;
+  --token-4795dafb-4261-43d3-aa0c-b3831681376e: #fff;
+  --token-a228d207-519c-4c30-ace3-fe8c17413ec0: #dadada;
+  --token-7d1fd828-621c-47fc-b270-6f2c2fff9ca2: #8f8f8f;
+  --token-dd08076e-6859-4f97-84b7-c05dcc1e773f: #ffffffe6;
+  --token-621c2752-e263-492f-8440-f4105a55d3f1: #dadada;
+  --token-cb6b9558-1df0-4f97-98cb-2fe80cc3b90c: #f5f5f5;
+  --token-37ca97ef-81c7-4731-ba05-2bafe1f2a4f5: #000;
+  --token-1e4a4a22-afd8-42f6-ae69-95001aaf48ae: #8f8f8f;
+  --token-a3859f8f-41d4-4be1-a56e-27b66efaa3e1: #fff0;
+}
+
+html[data-theme="dark"] body {
+  color-scheme: dark;
+  --token-a9f688eb-778b-4a71-929e-ebf8a014b4cf: #fff;
+  --token-4795dafb-4261-43d3-aa0c-b3831681376e: #080808;
+  --token-a228d207-519c-4c30-ace3-fe8c17413ec0: #5c5c5c;
+  --token-7d1fd828-621c-47fc-b270-6f2c2fff9ca2: #b5b5b5;
+  --token-dd08076e-6859-4f97-84b7-c05dcc1e773f: #0f0f0fe6;
+  --token-621c2752-e263-492f-8440-f4105a55d3f1: #0f0f0f;
+  --token-cb6b9558-1df0-4f97-98cb-2fe80cc3b90c: #222;
+  --token-37ca97ef-81c7-4731-ba05-2bafe1f2a4f5: #e3af20;
+  --token-1e4a4a22-afd8-42f6-ae69-95001aaf48ae: #d4d4d4;
+  --token-a3859f8f-41d4-4be1-a56e-27b66efaa3e1: #0f0f0f;
+}
+
+/* The page background is solid in both themes, with no animated noise layer. */
+[data-framer-name="Noise BG"],
+#__framer-badge-container,
+[data-framer-name="Get Template ( you can delete )"],
+[data-framer-name="New Release ( you can delete )"] {
+  display: none !important;
+}
+
+/* Remove the four floating service photographs; accordion motion is retained. */
+.framer-OV4kG .framer-149t9qt-container {
+  display: none !important;
+}
+
+.local-form-status {
+  color: var(--token-a9f688eb-778b-4a71-929e-ebf8a014b4cf);
+  font: 400 14px/1.5 Inter, sans-serif;
+  margin: 16px 0 0;
+}
+
+/* The navigation is shared by every route and remains available while scrolling. */
+.local-navigation,
+.local-navigation * { box-sizing: border-box; }
+.local-navigation {
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: max-content;
+  max-width: calc(100% - 40px);
+  height: 56px;
+  padding: 7px 10px 7px 8px;
+  border: 1px solid var(--token-621c2752-e263-492f-8440-f4105a55d3f1, #dadada);
+  border-radius: 30px;
+  background: var(--token-dd08076e-6859-4f97-84b7-c05dcc1e773f, #ffffffe6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--token-a9f688eb-778b-4a71-929e-ebf8a014b4cf, #303030);
+  font: 400 15px/1.4 Inter, sans-serif;
+}
+.local-navigation a { color: inherit; text-decoration: none; }
+.local-avatar { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
+.local-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.local-avatar img[src="/assets/media/office-shiba.png"] { transform: scale(2); transform-origin: 40% 27%; }
+.local-links { display: flex; align-items: center; gap: 0; margin-inline: -10px; }
+.local-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 10px;
+  white-space: nowrap;
+  transition: color .2s ease;
+}
+/* Select the saved language before first paint, without replacing link text. */
+.local-links [data-navigation-label="en"],
+html[data-locale="en"] .local-links [data-navigation-label="zh"] { display: none; }
+html[data-locale="en"] .local-links [data-navigation-label="en"] { display: inline; }
+.local-links a:hover,
+.local-links a[aria-current="page"] { color: var(--token-54672876-03f0-4dca-8fdb-32c421a5c4d1, #5e67e6); }
+.local-controls { display: flex; align-items: center; gap: 12px; }
+.local-navigation button {
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+.local-navigation :is(a,button):focus-visible { outline: 2px solid var(--token-54672876-03f0-4dca-8fdb-32c421a5c4d1, #5e67e6); outline-offset: 4px; }
+.local-language { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 0 3px; height: 32px; font-size: 12px !important; font-weight: 500 !important; white-space: nowrap; }
+.local-language span { opacity: .45; transition: opacity .2s; }
+.local-language .is-active { opacity: 1; font-weight: 600; }
+.local-language:hover span { opacity: 1; }
+.local-language-divider { opacity: .25 !important; }
+.local-appearance { display: flex; align-items: center; gap: 2px; padding: 3px; border-radius: 20px; background: var(--token-cb6b9558-1df0-4f97-98cb-2fe80cc3b90c, #f5f5f5); }
+.local-appearance button { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border-radius: 50%; opacity: .6; transition: background-color .2s, color .2s, opacity .2s; }
+.local-appearance button[aria-pressed="true"] { opacity: 1; background: var(--token-54672876-03f0-4dca-8fdb-32c421a5c4d1, #5e67e6); color: var(--token-861b2ae9-dee3-4143-a255-6faa9a39d943, #fff); }
+.local-appearance button:hover { opacity: 1; }
+.local-navigation svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.local-menu { display: none; }
+
+/* Keep the personal name above the role title in uppercase. */
+.framer-OzlK9 #hero .framer-r8sngb p.framer-text {
+  text-transform: uppercase !important;
+}
+
+/* The longer role title fits beside the portrait at the desktop breakpoint. */
+@media (min-width: 1200px) {
+  .framer-OzlK9 #hero :is(.framer-t476v9, .framer-h6ciaq) h1.framer-text {
+    font-size: 96px !important;
+  }
+}
+
+/* A 4:5 card keeps the square photograph's face, paws, and desk in view. */
+.framer-OzlK9 :is([data-framer-name="Avatar Card Flip"], [data-framer-name="Avatar Card / Front"], [data-framer-name="Avatar Card / Back"]) {
+  aspect-ratio: 4 / 5 !important;
+  height: auto !important;
+}
+.framer-OzlK9 [data-framer-name="Avatar Card / Front"] img,
+.framer-jDuwQ [data-framer-name="About Card - 1"] img {
+  object-fit: cover !important;
+  object-position: 45% center !important;
+}
+
+/* The contact section and old fixed controls are removed from the render tree. */
+#contact,
+[data-framer-name="Contact"],
+.framer-1eztli7-container,
+.framer-1978dwj-container { display: none !important; }
+
+/* Chinese follows the same sizing presets and breakpoints as the English page.
+   CJK glyphs are wider than Antonio, so display sizes are adjusted proportionally. */
+html[data-locale="zh"] { --local-cjk-font: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+html[data-locale="zh"] .framer-text:not(:lang(en)),
+html[data-locale="zh"] .local-navigation,
+html[data-locale="zh"] .local-form-status { font-family: var(--local-cjk-font) !important; }
+html[data-locale="zh"] .local-navigation { font-weight: 500; }
+html[data-locale="zh"] .framer-text:not(:lang(en)) { letter-spacing: 0 !important; }
+html[data-locale="zh"] p.local-cjk { font-weight: 400 !important; line-height: 1.65 !important; }
+html[data-locale="zh"] h1.local-cjk { font-size: 80px !important; font-weight: 700 !important; letter-spacing: -.045em !important; line-height: 1.15 !important; }
+html[data-locale="zh"] h2.local-cjk { font-size: calc(var(--framer-font-size, 64px) * .85) !important; font-weight: 600 !important; letter-spacing: -.035em !important; line-height: 1.2 !important; }
+html[data-locale="zh"] h3.local-cjk { font-size: calc(var(--framer-font-size, 48px) * .88) !important; font-weight: 600 !important; letter-spacing: -.025em !important; line-height: 1.25 !important; }
+html[data-locale="zh"] h4.local-cjk { font-size: calc(var(--framer-font-size, 32px) * .9) !important; font-weight: 600 !important; letter-spacing: -.015em !important; line-height: 1.35 !important; }
+html[data-locale="zh"] :is(h1,h2,h3,h4).local-cjk { text-wrap: balance; }
+/* CJK button labels need smaller type and room inside the original pill shape. */
+html[data-locale="zh"] :is(.framer-InsWF, .framer-5HJhH) {
+  width: max-content !important;
+  max-width: 100%;
+  padding: 12px 28px !important;
+}
+html[data-locale="zh"] :is(.framer-InsWF, .framer-5HJhH) h4.local-cjk {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+}
+html[data-locale="zh"]:not([data-local-ready]) #main { visibility: hidden; }
+
+@media (min-width: 810px) {
+  html[data-locale="zh"] h1.local-cjk { white-space: pre-line !important; }
+}
+
+/* Chinese H1 sizes follow the page breakpoints; English keeps its presets. */
+@media (max-width: 1199.98px) {
+  html[data-locale="zh"] h1.local-cjk { font-size: 64px !important; }
+}
+
+@media (max-width: 809.98px) {
+  html[data-locale="zh"] h1.local-cjk { font-size: 40px !important; }
+}
+
+@media (max-width: 640px) {
+  .local-navigation { top: 16px; width: calc(100% - 32px); max-width: 450px; gap: 16px; }
+  .local-controls { margin-left: auto; gap: 10px; }
+  .local-menu { display: grid; place-items: center; width: 28px; height: 32px; padding: 0; }
+  .local-menu svg { width: 20px; height: 20px; }
+  .local-links { display: none; position: absolute; left: 0; top: 66px; width: 100%; margin-inline: 0; padding: 10px; border: 1px solid var(--token-621c2752-e263-492f-8440-f4105a55d3f1, #dadada); border-radius: 22px; background: var(--token-4795dafb-4261-43d3-aa0c-b3831681376e, #fff); box-shadow: 0 12px 32px #0000000a; }
+  .local-navigation.is-open .local-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .local-links a { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 12px; }
+  .local-links a[aria-current="page"] { background: var(--token-cb6b9558-1df0-4f97-98cb-2fe80cc3b90c, #f5f5f5); }
+}

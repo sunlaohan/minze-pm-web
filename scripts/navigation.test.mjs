@@ -106,7 +106,7 @@ test('presentation code cannot replay pointer input or take over navigation', ()
   assert(!/dispatchEvent|new PointerEvent|new MouseEvent|pushState|replaceState|location\.assign|\.intercept\(/.test(effects));
 });
 
-function presentationFixture() {
+function presentationFixture({ mouse = false } = {}) {
   const listeners = new Map(), documentListeners = new Map(), frames = new Map(), resizes = [];
   let nextFrame = 0, reads = 0, writes = 0;
   const section = top => ({ getBoundingClientRect() { reads++; return { top: top - context.scrollY }; } });
@@ -116,6 +116,12 @@ function presentationFixture() {
     style: { set transform(value) { this.value = value; writes++; }, get transform() { return this.value; } },
   });
   const portrait = element();
+  const dot = element();
+  const attributes = new Set();
+  dot.setAttribute = name => attributes.add(name);
+  dot.removeAttribute = name => attributes.delete(name);
+  dot.hasAttribute = name => attributes.has(name);
+  dot.toggleAttribute = (name, enabled) => enabled ? attributes.add(name) : attributes.delete(name);
   portrait.closest = () => ({ querySelector: selector => selector === '#service' ? service : about });
   const cards = [element(), element()];
   cards.forEach(el => {
@@ -124,7 +130,8 @@ function presentationFixture() {
     el.getBoundingClientRect = () => { throw new Error('measured an animated card'); };
   });
   const document = {
-    readyState: 'complete', body: {}, getElementById: () => null,
+    readyState: 'complete', body: { append() {} }, getElementById: () => null,
+    createElement: () => dot,
     querySelectorAll(selector) {
       if (selector.endsWith('[data-framer-name="Avatar Wrap"]')) return [portrait];
       if (selector.endsWith('[data-framer-name^="Featured Project -"]')) return cards;
@@ -135,7 +142,7 @@ function presentationFixture() {
   };
   const context = {
     document, innerHeight: 900, innerWidth: 1280, scrollY: 0,
-    matchMedia: () => ({ matches: false, addEventListener() {} }),
+    matchMedia: query => ({ matches: mouse && query.includes('hover: hover'), addEventListener() {} }),
     IntersectionObserver: class { observe() {} },
     ResizeObserver: class { constructor(callback) { resizes.push(callback); } observe() {} },
     requestAnimationFrame(callback) { frames.set(++nextFrame, callback); return nextFrame; },
@@ -146,7 +153,7 @@ function presentationFixture() {
   const effects = readFileSync(new URL('../src/scripts/interactions.js', import.meta.url), 'utf8');
   runInNewContext(effects, context);
   const flush = () => { const pending = [...frames.values()]; frames.clear(); pending.forEach(callback => callback()); };
-  return { context, listeners, documentListeners, resizes, frames, portrait, cards, flush,
+  return { context, listeners, documentListeners, resizes, frames, portrait, cards, dot, flush,
     get reads() { return reads; }, get writes() { return writes; } };
 }
 
@@ -157,6 +164,28 @@ test('presentation leaves wheel and touch scrolling entirely browser-owned', () 
     assert.equal(f.listeners.has(type), false, type);
   }
   f.flush();
+});
+
+test('project hover restores the arrow while page defaults and controls keep their cursor behavior', () => {
+  const f = presentationFixture({ mouse: true });
+  f.flush();
+  const move = (variant, control = false) => f.documentListeners.get('pointermove')({
+    clientX: 400, clientY: 300,
+    target: { closest: selector => selector.includes('data-framer-cursor')
+      ? { dataset: { framerCursor: variant } } : control ? {} : null },
+  });
+  move('1bde3zh'); f.flush();
+  assert(f.dot.innerHTML.includes('<svg'));
+  assert(f.dot.hasAttribute('data-visible'));
+  assert(f.dot.hasAttribute('data-large'));
+  assert.equal(f.dot.style.transform, 'translate3d(400px,300px,0)');
+  for (const variant of ['17ph7dh', '1hyjosv', undefined]) {
+    move(variant); f.flush();
+    assert(!f.dot.hasAttribute('data-large'), 'ordinary page areas must stay small');
+  }
+  move('1bde3zh', true); f.flush();
+  assert(!f.dot.hasAttribute('data-visible'));
+  assert(!f.dot.hasAttribute('data-large'));
 });
 
 test('scroll frames reuse layout positions and coalesce updates until the next frame', () => {

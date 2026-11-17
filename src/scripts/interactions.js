@@ -198,6 +198,7 @@
     const dot = document.createElement('div');
     dot.className = 'presentation-cursor';
     dot.setAttribute('aria-hidden', 'true');
+    dot.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7" /></svg>';
     document.body.append(dot);
     let x = 0, y = 0, frame = 0;
     const update = () => { frame = 0; dot.style.transform = `translate3d(${x}px,${y}px,0)`; };
@@ -205,7 +206,10 @@
       x = event.clientX; y = event.clientY;
       const outside = event.target.closest('#site-navigation,input,textarea,select');
       dot.toggleAttribute('data-visible', !outside);
-      dot.toggleAttribute('data-large', !outside && Boolean(event.target.closest('a,[data-framer-cursor]')));
+      // Only the authored project/article cursor variant grows an arrow.
+      // The page-wide default marker and ordinary links keep the small dot.
+      const variant = event.target.closest('[data-framer-cursor]')?.dataset.framerCursor;
+      dot.toggleAttribute('data-large', !outside && variant === '1bde3zh');
       if (!frame) frame = requestAnimationFrame(update);
     }, { passive: true });
     document.addEventListener('mouseleave', () => dot.removeAttribute('data-visible'));

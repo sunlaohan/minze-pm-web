@@ -16,6 +16,14 @@ FAQ_PREFIXES = [
     'The timeline depends on the scope of the project.', 'Typically, I’ll need information about your business,',
     'Yes, revisions are part of my process', 'Simply reach out through my contact page',
 ]
+# Match only the captured button's dedicated responsive wrapper. Keeping the
+# replacement textual preserves unrelated image attributes and source ordering.
+LOAD_MORE_WRAPPER = re.compile(
+    r'<div\b(?=[^>]*\bclass="[^"]*\bssr-variant\b)[^>]*>\s*'
+    r'<div\b[^>]*>\s*'
+    r'<button\b(?=[^>]*\bclass="[^"]*\bframer-5HJhH\b)[^>]*>'
+    r'[\s\S]*?</button>\s*</div>\s*</div>'
+)
 
 
 def transform(value):
@@ -35,9 +43,20 @@ def migrate():
     profile = json.loads(profile_source[profile_source.index('{'):profile_source.rfind('}') + 1])
     faq_answers = [next(key for key in profile['entries'] if key.startswith(prefix)) for prefix in FAQ_PREFIXES]
     total = 0
+    removed_pagination = 0
     for path in (ROOT / 'src/pages').rglob('*.html'):
-        soup = BeautifulSoup(path.read_text(), 'html.parser')
-        if soup.html.get('data-native-page') == 'true': continue
+        source = path.read_text()
+        # These captured CMS controls have no native pagination data or action.
+        # Remove their responsive wrappers too, so no empty grid row remains.
+        cleaned, removed = LOAD_MORE_WRAPPER.subn('', source)
+        if re.search(r'<button\b[^>]*\bframer-5HJhH\b', cleaned):
+            raise ValueError(f'Unrecognized pagination wrapper: {path}')
+        removed_pagination += removed
+        soup = BeautifulSoup(cleaned, 'html.parser')
+        native = soup.html.get('data-native-page') == 'true'
+        if native:
+            if cleaned != source: path.write_text(cleaned)
+            continue
         appear = soup.select_one('#__framer__appearAnimationsContent')
         motion = json.loads(appear.string) if appear else {}
         motion_config = {}
@@ -128,6 +147,7 @@ def migrate():
         path.write_text(str(soup))
         total += 1
     print(f'Migrated {total} pages to native navigation and interactions.')
+    print(f'Removed {removed_pagination} inactive pagination controls.')
 
 
 def annotate_counter(container, end, suffix):

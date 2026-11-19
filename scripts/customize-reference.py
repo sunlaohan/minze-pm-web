@@ -9,13 +9,16 @@ from bs4 import BeautifulSoup
 from social_icons import customize_social_icons
 
 ROOT = Path(__file__).resolve().parents[1]
-AVATAR_IMAGE = '/assets/media/office-shiba.png'
+PORTRAIT_SOURCE = '/assets/media/office-shiba.png'
+AVATAR_IMAGE = '/assets/media/office-shiba-800.webp'
+NAV_AVATAR_IMAGE = '/assets/media/office-shiba-avatar.webp'
+FAVICON_IMAGE = '/assets/media/office-shiba-favicon.png'
 AVATAR_ALT = 'Shiba Inu working at a laptop'
 HERO_FACES = {
-    'Front': {'src': AVATAR_IMAGE, 'srcset': AVATAR_IMAGE + ' 1254w', 'alt': AVATAR_ALT, 'width': 1254, 'height': 1254},
+    'Front': {'src': AVATAR_IMAGE, 'srcset': AVATAR_IMAGE + ' 800w', 'alt': AVATAR_ALT, 'width': 800, 'height': 800},
     'Back': {'src': '/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg', 'srcset': '/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg 819w,/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg 960w', 'alt': 'Designer workspace with a computer', 'width': 960, 'height': 1200},
 }
-HERO_IMAGES = ('/assets/media/qrxY8NagVO40NBrdhFEGgFR3PYY.jpg', '/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg', AVATAR_IMAGE)
+HERO_IMAGES = ('/assets/media/qrxY8NagVO40NBrdhFEGgFR3PYY.jpg', '/assets/media/VRQgkdWsjawSg1qpCm45HfSY1I.jpeg', PORTRAIT_SOURCE, AVATAR_IMAGE)
 HOME_METRICS = {
     'Years of Experience': (10, '+'),
     'Completed Projects': (50, '+'),
@@ -82,6 +85,8 @@ def main():
     partial = (ROOT / 'src/partials/navigation.html').read_text()
     for path in (ROOT / 'src/pages').rglob('*.html'):
         soup = BeautifulSoup(path.read_text(), 'html.parser')
+        for icon in soup.select('link[rel~="icon"]'):
+            icon['href'] = FAVICON_IMAGE
         for element in soup.select('#contact,[data-framer-name="Contact"],.framer-1eztli7-container,.framer-1978dwj-container,#site-navigation,footer.framer-d1zaK .framer-55e6gk,footer.framer-d1zaK .framer-10sozgv'):
             if element.parent:
                 element.decompose()
@@ -139,7 +144,7 @@ def main():
                 raise ValueError('Home avatar back face was not found')
             output = re.sub(pattern, lambda match: replace_hero_background(match, 'Back'), back) + marker + re.sub(pattern, replace_hero_background, front)
         if '"data-framer-name":`About Card - 1`' in output:
-            images = '|'.join(re.escape(image) for image in (HERO_IMAGES[0], AVATAR_IMAGE))
+            images = '|'.join(re.escape(image) for image in (HERO_IMAGES[0], PORTRAIT_SOURCE, AVATAR_IMAGE))
             # Replace only the portrait slide; keep the other About photographs.
             output = re.sub(r'\{alt:`[^`]*`,pixelHeight:\d+,pixelWidth:\d+,src:`(?:' + images + r')`,srcSet:`[^`]*`\}', replace_hero_background, output)
         # Match toolkit images to the resume-based capability names.
@@ -162,8 +167,11 @@ def main():
     customize_social_icons(ROOT)
     manifest_path = ROOT / 'reference-manifest.json'
     manifest = json.loads(manifest_path.read_text())
-    if not any(asset['local'] == AVATAR_IMAGE for asset in manifest['assets']):
-        manifest['assets'].append({'reference': 'user-provided:office-shiba.png', 'local': AVATAR_IMAGE, 'note': 'User-provided portfolio portrait.'})
+    for image, note in [(AVATAR_IMAGE, '800px WebP portfolio portrait.'), (NAV_AVATAR_IMAGE, '128px WebP face crop for the navigation avatar.')]:
+        if not any(asset['local'] == image for asset in manifest['assets']):
+            manifest['assets'].append({'reference': 'derived:' + PORTRAIT_SOURCE, 'local': image, 'note': note})
+    if not any(asset['local'] == FAVICON_IMAGE for asset in manifest['assets']):
+        manifest['assets'].append({'reference': 'derived:' + PORTRAIT_SOURCE, 'local': FAVICON_IMAGE, 'note': 'Circular favicon matching the homepage navigation avatar.'})
     for icon in TOOLKIT_ICONS.values():
         if not any(asset['local'] == icon['src'] for asset in manifest['assets']):
             manifest['assets'].append({'reference': icon['reference'], 'local': icon['src'], 'note': 'Resume toolkit icon; provenance and licenses in assets/media/toolkit/.'})

@@ -6,6 +6,7 @@
   "description": "Bilingual portfolio with native navigation and independent presentation effects.",
   "scripts": {
     "dev": "node scripts/serve.mjs",
+    "images": "python3 scripts/prepare-images.py",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs --dist",
     "check": "node scripts/check.mjs",

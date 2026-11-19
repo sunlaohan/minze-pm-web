@@ -1,6 +1,12 @@
 /* Project customizations. The reference layout and motion live in src/pages
    and public/assets/runtime; keep deliberate visual changes in this file. */
 
+/* Keep image-backed project titles legible over bright business photography. */
+[data-framer-name="Project Cover"] > [data-framer-name="Overlay Gradient"] {
+  background: linear-gradient(180deg, rgba(8, 10, 14, .46) 0%, rgba(8, 10, 14, .68) 48%, rgba(8, 10, 14, .82) 100%) !important;
+  opacity: 1 !important;
+}
+
 /* Both appearances share the same accent and its foreground color. */
 html[data-theme] body {
   --token-54672876-03f0-4dca-8fdb-32c421a5c4d1: #5e67e6;
@@ -43,6 +49,11 @@ html[data-theme="dark"] body {
   display: none !important;
 }
 
+/* Netlify inserts this iframe after load, including on nested routes. */
+#nl-badge-frame {
+  display: none !important;
+}
+
 /* Remove the four floating service photographs; accordion motion is retained. */
 .framer-OV4kG .framer-149t9qt-container {
   display: none !important;
@@ -76,9 +87,8 @@ html[data-theme="dark"] body {
   font: 400 15px/1.4 Inter, sans-serif;
 }
 .local-navigation a { color: inherit; text-decoration: none; cursor: pointer; }
-.local-avatar { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
-.local-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.local-avatar img[src="/assets/media/office-shiba.png"] { transform: scale(2); transform-origin: 40% 27%; }
+.local-avatar { display: block; position: relative; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
+.local-avatar img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: inherit; }
 .local-links { display: flex; align-items: center; gap: 0; margin-inline: -10px; }
 .local-links a {
   display: flex;
@@ -121,6 +131,12 @@ html[data-locale="en"] .local-links [data-navigation-label="en"] { display: inli
 .framer-OzlK9 #hero .framer-r8sngb p.framer-text {
   text-transform: uppercase !important;
 }
+/* The hero's empty layout boxes sit over the portrait. Let taps reach the
+   card while keeping the actual heading/description selectable. */
+.framer-OzlK9 .framer-15t8qm9,
+.framer-OzlK9 #hero { pointer-events: none; }
+.framer-OzlK9 :is(#service, #about),
+.framer-OzlK9 #hero [data-framer-component-type="RichTextContainer"] { pointer-events: auto; }
 
 /* The longer role title fits beside the portrait at the desktop breakpoint. */
 @media (min-width: 1200px) {
@@ -130,9 +146,25 @@ html[data-locale="en"] .local-links [data-navigation-label="en"] { display: inli
 }
 
 /* A 4:5 card keeps the square photograph's face, paws, and desk in view. */
-.framer-OzlK9 :is([data-framer-name="Avatar Card Flip"], [data-framer-name="Avatar Card / Front"], [data-framer-name="Avatar Card / Back"]) {
+.framer-OzlK9 [data-framer-name="Avatar Card Flip"] {
   aspect-ratio: 4 / 5 !important;
   height: auto !important;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.framer-OzlK9 :is([data-framer-name="Avatar Card / Front"], [data-framer-name="Avatar Card / Back"]) {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.framer-OzlK9 [data-framer-name="Avatar Card / Front"] {
+  transform: rotateY(0deg) translateZ(1px) !important;
+}
+.framer-OzlK9 [data-framer-name="Avatar Card / Back"] {
+  transform: rotateY(180deg) translateZ(1px) !important;
 }
 .framer-OzlK9 [data-framer-name="Avatar Card / Front"] img,
 .framer-jDuwQ [data-framer-name="About Card - 1"] img {
@@ -187,6 +219,25 @@ html[data-locale="zh"]:not([data-local-ready]) #main { visibility: hidden; }
 @media (max-width: 809.98px) {
   html[data-locale="zh"] h1.local-cjk { font-size: 40px !important; }
   html[data-locale="zh"] h2.local-cjk { font-size: 32px !important; }
+
+  /* The reference disables scroll rotation on phones. Switch a single flat
+     face on tap so iOS cannot composite both photographs into the card. */
+  .framer-OzlK9 [data-framer-name="Avatar Card Flip"],
+  [data-native-page] [data-framer-name="Avatar Card Flip"][data-flipped] {
+    transform: none !important;
+    -webkit-transform-style: flat;
+    transform-style: flat;
+  }
+  .framer-OzlK9 :is([data-framer-name="Avatar Card / Front"], [data-framer-name="Avatar Card / Back"]) {
+    transform: none !important;
+  }
+  .framer-OzlK9 [data-framer-name="Avatar Card / Back"],
+  .framer-OzlK9 [data-flipped] [data-framer-name="Avatar Card / Front"] {
+    visibility: hidden;
+  }
+  .framer-OzlK9 [data-flipped] [data-framer-name="Avatar Card / Back"] {
+    visibility: visible;
+  }
 }
 
 @media (max-width: 640px) {

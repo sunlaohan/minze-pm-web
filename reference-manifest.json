@@ -1635,6 +1635,27 @@
       "note": "iconfont icon 25039620; Bilibili solid monochrome SVG.",
       "bytes": 2918,
       "sha256": "debe3e7d20750105d87da3b0e60f1525790c27cde7d775e3dd36d3a022ea5207"
+    },
+    {
+      "reference": "derived:/assets/media/office-shiba.png",
+      "local": "/assets/media/office-shiba-favicon.png",
+      "note": "64px circular favicon from the homepage Shiba image, matching the navigation avatar crop.",
+      "bytes": 9690,
+      "sha256": "f7be4b6472fbeefd9fe0739f23303b8b104e5db3ef901ed134d4918d8cf0148c"
+    },
+    {
+      "reference": "derived:/assets/media/office-shiba.png",
+      "local": "/assets/media/office-shiba-800.webp",
+      "note": "800px WebP portrait resized from the original.",
+      "bytes": 45950,
+      "sha256": "2646ac0cde1590604842c7a83b865f5bdd702494b6d13d4e3b5cfdcb00f6e8b7"
+    },
+    {
+      "reference": "derived:/assets/media/office-shiba.png",
+      "local": "/assets/media/office-shiba-avatar.webp",
+      "note": "128px WebP face crop (20%, 13.5%, 70%, 63.5%) matching the favicon.",
+      "bytes": 3426,
+      "sha256": "7ba28dfc6aed77ca661235624c83fe1bfd454ce24c79c2d9513aa9b6caf2955f"
     }
   ]
 }

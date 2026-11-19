@@ -204,3 +204,35 @@ test('scroll frames reuse layout positions and coalesce updates until the next f
   f.resizes[0](); f.flush();
   assert(f.reads > reads, 'layout changes must refresh cached positions');
 });
+
+test('portrait scroll poses retain the reference desktop and tablet targets', () => {
+  const f = presentationFixture();
+  const pose = (width, y) => {
+    f.context.innerWidth = width;
+    f.context.scrollY = y;
+    f.listeners.get('resize')(); f.flush();
+    return f.portrait.style.transform;
+  };
+  assert.equal(pose(1280, 0), 'perspective(1200px) translateX(0px) rotate(0deg) rotateY(0deg) scale(1)');
+  assert.equal(pose(1280, 900), 'perspective(1200px) translateX(340px) rotate(10deg) rotateY(150deg) scale(0.9)');
+  assert.equal(pose(1280, 1800), 'perspective(1200px) translateX(340px) rotate(5deg) rotateY(340deg) scale(1)');
+  assert.equal(pose(900, 1800), 'perspective(1200px) translateX(200px) rotate(5deg) rotateY(340deg) scale(0.9)');
+});
+
+test('phone scrolling and viewport-height changes reset desktop transforms', () => {
+  const f = presentationFixture();
+  f.context.scrollY = 1800;
+  f.flush();
+  assert(f.portrait.style.transform.includes('rotateY(340deg)'));
+  f.context.innerWidth = 390;
+  f.listeners.get('resize')(); f.flush();
+  for (const y of [0, 600, 1800, 3100]) {
+    f.context.scrollY = y;
+    f.listeners.get('scroll')(); f.flush();
+    assert.equal(f.portrait.style.transform, 'perspective(1200px)');
+    f.cards.forEach(card => assert.equal(card.style.transform, 'none'));
+  }
+  f.context.innerHeight = 720;
+  f.listeners.get('resize')(); f.flush();
+  assert.equal(f.portrait.style.transform, 'perspective(1200px)');
+});
